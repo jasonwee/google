@@ -27,7 +27,7 @@ $ ../node_modules/.bin/clasp create --title "Clasp Codelab";
 ⠋ Creating new script: Clasp Codelab…(node:129599) ExperimentalWarning: The Fetch API is an experimental feature. This feature could change at any time
 (Use `node --trace-warnings ...` to show where the warning was created)
 Created new standalone script: https://script.google.com/d/1Uz6YuAgN-WoTtKKceL-kIlZiskimZUeD9bUAaH52OzkgJGWs9-5bUplJ/edit
-Warning: files in subfolder are not accounted for unless you set a '/home/jason/google/clasp_codelab/.claspignore' file.
+Warning: files in subfolder are not accounted for unless you set a '/home/user/google/clasp_codelab/.claspignore' file.
 Cloned 1 file.
 └─ /home/user/google/clasp_codelab/appsscript.json
 
