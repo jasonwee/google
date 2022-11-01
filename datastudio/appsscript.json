@@ -1,0 +1,12 @@
+{
+  "timeZone": "Asia/Kuching",
+  "dependencies": {},
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "dataStudio": {
+    "name": "JSON connector - ot4",
+    "logoUrl": "https://www.opentracker.net/wp-content/uploads/2021/11/opentracker_black_tiny-searchlight.png",
+    "company": "Opentracker",
+    "companyUrl": "https://www.opentracker.net",
+…  }
+}
