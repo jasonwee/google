@@ -107,7 +107,7 @@ function getFields(response) {
         .setType(types.NUMBER);
       }
     } else {
-      if (field_names[i] === 'Timestamp') {
+      if (field_names[i] === 'Timestamp' || field_names[i] === 'key') {
         fields.newDimension()
         .setId(field_names[i])
         .setName(v)
@@ -160,6 +160,7 @@ function getData(request) {
     var eMilliUnixTimestamp = new Date(request.dateRange.endDate).getTime();
     var newURL = updateURLParameter(url, 'startTime', sMilliUnixTimestamp);
     newURL = updateURLParameter(newURL, 'endTime', eMilliUnixTimestamp);
+    console.log("newURL=" + newURL);
     url = newURL;
   }
   
@@ -327,6 +328,18 @@ function formatData(requestedFields, jsonRow) {
       case 'Timestamp':
         var reggie = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
         var dateArray = reggie.exec(jsonRow.Timestamp); 
+        var dateObject = new Date((+dateArray[1]),
+                                  (+dateArray[2])-1, // Careful, month starts at 0!
+                                  (+dateArray[3]),
+                                  (+dateArray[4]),
+                                  (+dateArray[5]),
+                                  (+dateArray[6])
+        );
+        var formattedDate = Utilities.formatDate(dateObject, "UTC", "YYYYMMDDHHmmss");
+        return formattedDate;
+      case 'key':
+        var reggie = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
+        var dateArray = reggie.exec(jsonRow.Timestamp);
         var dateObject = new Date((+dateArray[1]),
                                   (+dateArray[2])-1, // Careful, month starts at 0!
                                   (+dateArray[3]),
