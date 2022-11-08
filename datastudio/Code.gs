@@ -97,30 +97,29 @@ function getFields(response) {
     if (v_is_numeric) {
       if (field_names[i] === 'eventUnixTimestamp' || field_names[i] === 'eventEsTimestamp') {
         fields.newDimension()
-        .setId(field_names[i])
+        .setId(replace(field_names[i], " ", "_"))
         .setName(v)
         .setType(types.YEAR_MONTH_DAY_SECOND);
       } else {
         fields.newMetric()
-        .setId(field_names[i])
+        .setId(replace(field_names[i], " ", "_"))
         .setName(v)
         .setType(types.NUMBER);
       }
     } else {
-      if (field_names[i] === 'Timestamp' || field_names[i] === 'key') {
+      if (field_names[i] === 'Timestamp') {
         fields.newDimension()
-        .setId(field_names[i])
+        .setId(replace(field_names[i], " ", "_"))
         .setName(v)
         .setType(types.YEAR_MONTH_DAY_SECOND);
       } else {
         fields.newDimension()
-        .setId(field_names[i])
+        .setId(replace(field_names[i], " ", "_"))
         .setName(v)
         .setType(types.TEXT);
       }
     }
 
-    
   }
 
   return fields;
@@ -327,18 +326,6 @@ function formatData(requestedFields, jsonRow) {
         return formattedDate;
       case 'Timestamp':
         var reggie = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
-        var dateArray = reggie.exec(jsonRow.Timestamp); 
-        var dateObject = new Date((+dateArray[1]),
-                                  (+dateArray[2])-1, // Careful, month starts at 0!
-                                  (+dateArray[3]),
-                                  (+dateArray[4]),
-                                  (+dateArray[5]),
-                                  (+dateArray[6])
-        );
-        var formattedDate = Utilities.formatDate(dateObject, "UTC", "YYYYMMDDHHmmss");
-        return formattedDate;
-      case 'key':
-        var reggie = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
         var dateArray = reggie.exec(jsonRow.Timestamp);
         var dateObject = new Date((+dateArray[1]),
                                   (+dateArray[2])-1, // Careful, month starts at 0!
@@ -350,10 +337,9 @@ function formatData(requestedFields, jsonRow) {
         var formattedDate = Utilities.formatDate(dateObject, "UTC", "YYYYMMDDHHmmss");
         return formattedDate;
       default:
-        console.log(requestedField.getId());
-        return jsonRow[requestedField.getId()];
+        return jsonRow[replace(requestedField.getId(), "_", " ")];
     }
   });
-  //console.log(row);
+
   return {values: row};
 }
