@@ -95,26 +95,28 @@ function getFields(response) {
     let v_is_numeric = isNumeric(jResponse.buckets[0][field_names[i]]);
 
     if (v_is_numeric) {
+      let field_id = replace(field_names[i], " ", "_");
       if (field_names[i] === 'eventUnixTimestamp' || field_names[i] === 'eventEsTimestamp') {
         fields.newDimension()
-        .setId(replace(field_names[i], " ", "_"))
+        .setId(field_id)
         .setName(v)
         .setType(types.YEAR_MONTH_DAY_SECOND);
       } else {
         fields.newMetric()
-        .setId(replace(field_names[i], " ", "_"))
+        .setId(field_id)
         .setName(v)
         .setType(types.NUMBER);
       }
     } else {
+      let field_id = replace(field_names[i], " ", "_");
       if (field_names[i] === 'Timestamp') {
         fields.newDimension()
-        .setId(replace(field_names[i], " ", "_"))
+        .setId(field_id)
         .setName(v)
         .setType(types.YEAR_MONTH_DAY_SECOND);
       } else {
         fields.newDimension()
-        .setId(replace(field_names[i], " ", "_"))
+        .setId(field_id)
         .setName(v)
         .setType(types.TEXT);
       }
@@ -337,7 +339,8 @@ function formatData(requestedFields, jsonRow) {
         var formattedDate = Utilities.formatDate(dateObject, "UTC", "YYYYMMDDHHmmss");
         return formattedDate;
       default:
-        return jsonRow[replace(requestedField.getId(), "_", " ")];
+        let field_id = replace(requestedField.getId(), "_", " ");
+        return jsonRow[field_id];
     }
   });
 
